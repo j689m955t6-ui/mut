@@ -37,6 +37,7 @@ h2{font-size:18px;font-weight:500;margin:0;color:var(--dim);}
 .chip.aktiv{background:var(--accent);border-color:var(--accent);color:#fff;}
 .wort{align-self:flex-start;color:var(--dim);}
 .wort.aktiv{background:var(--panel2);color:var(--text);border-color:var(--accent);}
+.wort.leise{align-self:center;background:none;border:none;color:var(--dim);font-size:13px;margin-top:16px;padding:8px;opacity:.75;}
 .skala{display:flex;flex-wrap:wrap;gap:6px;}
 .skala-b{flex:1 1 8%;min-width:40px;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px 0;font-size:16px;cursor:pointer;}
 .skala-b.aktiv{background:var(--accent);border-color:var(--accent);color:#fff;}
@@ -59,17 +60,23 @@ hr{border:none;border-top:1px solid var(--line);margin:16px 0;}
 .krisen-leiste{position:fixed;left:0;right:0;bottom:0;background:var(--warn);color:#fff;border:none;border-top:1px solid rgba(0,0,0,.12);padding:16px;font-size:16px;cursor:pointer;z-index:50;}
 .logo{width:min(80%,340px);height:auto;display:block;margin:0 auto 2px;}
 .logo-klein{width:132px;height:auto;display:block;margin:26px auto 0;opacity:.7;}
+.chat{display:flex;flex-direction:column;gap:10px;margin:8px 0;}
+.bubble{padding:12px 14px;border-radius:14px;max-width:88%;font-size:16px;line-height:1.45;}
+.bubble.assistant{background:var(--panel);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px;}
+.bubble.user{background:var(--panel2);border:1px solid var(--line);align-self:flex-end;border-bottom-right-radius:4px;}
+.passt{display:flex;gap:8px;align-self:flex-start;margin:-2px 0 4px;}
+textarea.text{resize:vertical;font-family:inherit;}
 </style>
 </head>
 <body>
-<div id="root"><div style="padding:28px 18px;color:#2f342e;font-family:-apple-system,system-ui,sans-serif">MUT laedt…<br><br><span style="color:#7d7a70;font-size:14px">Wenn dauerhaft nur dieser Text bleibt, wurde JavaScript nicht ausgefuehrt. Dann die Datei in Safari oder Chrome oeffnen (nicht in der Dateien-Vorschau) — oder wir richten die Web-Adresse ein.</span></div></div>
+<div id="root"><div style="padding:28px 18px;color:#2f342e;font-family:-apple-system,system-ui,sans-serif">MUT lädt…<br><br><span style="color:#7d7a70;font-size:14px">Wenn dauerhaft nur dieser Text bleibt, wurde JavaScript nicht ausgeführt. Dann die Datei in Safari oder Chrome öffnen (nicht in der Dateien-Vorschau) — oder wir richten die Web-Adresse ein.</span></div></div>
 <noscript><div style="padding:28px 18px;color:#2f342e;font-family:sans-serif">JavaScript ist aus. MUT braucht JavaScript.</div></noscript>
 <script>
 "use strict";
 const LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAACdCAYAAACZzeLLAAA7EElEQVR42u19fXBT55nv8+pIlnVssLCdD5O7aXsvs3doaMIuOATIbdpty7SzN5OdzIZNxnTAli3Ex0aKEU0z+MpjDZ5uB+FI2QKybBmzxUNLcpn2st3sZbZ3m90AJcJdkqah22XuTdsNhKxFDFhHlqXjc/+QHvnV8TlH37Zk3t9MJoklHR29531/7/P+ni8CDGWDKIpk38vdJq/HJ+DfuvyWproJ49MSmX1Kb+La8O+JqDhGPjXu8Xp8gsNp5+nPMDAw3JsgbAjKQ8y2IWvjkC0YBgAY23vSEHrwQpuclJUghKe3H+sPnuryW5rw8wwMDIygGYqFBKRr0JImZofTzoM5vpXjSSAvghckq7fn6CgjaQYGRtAMJYDLtY5zu8dFJGZpRexINmtZk6Sv683eQ74oEJDY6DIw3JvQsSEoDg6nnQcAcLvHRYfTztv7bce5lYnJYsgZACBmnHoGCEh4fQYGhnsPejYExREzOvWSUkYiAMCV5PrGWP2P2SgzMDCCZiiAnDHKYtcBywtcU+JEKdUiITy9/ZgnKHT5LU1em49p0AwM9yiYBp0vMad04VLozGo43H2kptXVqg+5Qwk26gwMzIJmyIKkE9AngAfAcXD3jmLljERUHCOS7q1YNBYzmoxG/HekOXYWAGCzsKkmBIygGRiYBc2gCjqmuRirGQk50hw7y0LnGBgYmAVdJBxOO89xnAAA4UKt5kRUHBOa4s6h7kxSbnW16gEA1q58tAEAoO5afRRfY1mEDAwMzILOQs4YoVGI1SwKkhUmDafTZCsBcey3mxgBMzAwMIIuAuig6/JbmpYLtTfysZaJpHvL23N0lL7WZmFTDSNlBgYGRtBFAtOrdx2wvMA31Z7IlZhnhPi5Y/3BUxnX2Rm8xTIBGRgYGEGX0HJO6s251c/AuhkAytXrGBgYGAoFcxLKyHnXAcsLuZBzhsac0pdTDkVGzgwMDMyCLhUGR6zmnR2ByVws53RURipUjlWcY2BgYARdJtDRGtzKxKTWe7FWM0Bm9ToGBgaGcuCelziW82/HAACkFbEjajHO2O3kmCcoOJx2PrJqynQDABzOJ6NMb2ZgYGAWdJmt6GzWsyhI1jUta1/vtFgjSq93+S1NLdevTN4RnjQCABz+7kCU4zgWwVEBEA0G8rP163UAAF+5eJGdehgYQVcFJCBY+CgbQdPWNAAApm3XXatXt6IlIK29rdxmYVMNI+3FwU1bh/kB/8gkTdZcPM6eAQMj6KVkQedC3ETSvQUAAJOG02tWP0IUre1UxMd5/sIMS2ApL366cSP3lYsXxTOd25ofmv7kqwAAG06e+wEjaQZG0FVEzl6PT7D3246Xo3QoXSRpg2HDtBJpt7pa9WtXPtrg7wrcYhZ2acn5pq3DPBu+fBP/PkGWvfGF0+fb8HU2UgyMoKuAoEthRRdC2vIQPZdrHQcAcEd40sis68KAFvK5Z//ka1/gJv5W/vrvjA9u33Dy3A/k8gcDAyPoSibpPDIIF4KwJQlIb+86HSPr/Mn5zac3f3Vt7d2fqL3vYsOjDz1z4ofhCcs3GxhJMzCCrnAUUoNjIckaw/tYUkxmyzEaaBFnI2da6jjTua352eGTE2wFMDCCriK5I9kEduGt6XkWoSBZ5WTd6mrVh/pC4r1WiEmNmGlyVpM1lMCkDgZG0FVOAl1+S1PdhPFpicw+VQ4nYr6WteFk3clDvz6UAEimqHduP3b7XnAs0pun/CQhGgwEAGDC8s0G2iGYCw592bbikN0eBQBgkR0MjKCrBEqp3F1+SxMAwGITtrwZwFK3qJXkJ0y7Hxyxmjt3Hr/NxePSmc5tzRtvv/dRPtdmVjRDJYNVs1MBkrPDaefP8xdmvgGzknvOahtN/dO+GKTN8SQAfCJg77eNkU+Ne7xunwDupVm4yeG0816bb55vwGgyGgEAPvpw/C4Xj0tSN+jIwMmJX27d/EazdPfPc71+3dSdFWy2MzCCrlKglRqCuXrPAAB4zB5SIG08hpebtPUmrg1MiTbHwd1Ji9rmC2MizFKI+nA47Tz+m2tKZDhuY9FYDCAZjggwLnwidCwHGJkUaurOQix3gr7vwc+fAvg5HLn/3btstjMwiWOJAbt+t1y/Mvkm6Iia1OBw2vmYceqZGt6wpVyETTcPWArV9vBEoJREdIefbsFO67gZYYjdjecejTF5g4ERNIMqaaOlfZ6/MBNyhxJK5FMOCxsr76FDrVrrfyDxKvWFTETFMd8Bf7vcoYvZgZe2bXn+4djHJxg5MzCJg2EeUoQoyAknsmrKdOX6e7dD7lAiJY2MAsDo2N6T1p+t+cflfNjgKZasadnD2+Mb9Xp8muFplQ4+bPCAKfNvM0L8nNJ7v/T227PAcfBR7f3/8HDsY9Vr6prWP7DBPzL5040bOUbODMyCZlC0ECOrpkwAABnZgyARq7+zsRRkLbemq4WkUdpQ66q+uuGxFZ0Wa0QURSI/HaBF/N4LXz52XyLcIf/sxYZHH3p2+OQEq8XBwCxoBlWkyFKgCXs5/3aMuIkINghD0tm4B8zxrYXKIGlr2mk3VxtJq1nPQnh6e2e3NeJyreM4jptHsOcTM3rRYCATDZ97ZTacSdCMnBmYBc1QEutarl13+S1NxVjV6ECsdJLW0p4BAMTrerPX4xOwya/SNZIhdzD7y62bxzDk7p+FO81bf/LhXUbODNUEHRuCyrSukXy6/JYmh9POD9mCYd8Bf7t4XW/GpgH5gONJwHFw9450KnuFAluQ8WGDR/5aIiqOIXmrkTMAwOxfGyQAAPE5a8fvjA9u/z8PfKt+608+vHumc1szI2cGZkEzlMWypKQRKLSoE2bgVbIlPRwM1F29/e6natZzIff+bYOB+6t4nJEzA7OgGcpjVSM5OZx2/lh/8JSn+3tGUZCs+VyHb6o9gZZ0q6u1onwQuAm9f+PKc2rWcy7kjLU5RIOB3LR1mEWDgTByZqgWI4wR9BIhaiIR8PYcHc1X9uB4EnA47XzIHUpUotwhkdmn5h31sJ2YBs50bmvGZBWpG3R9rzyqe8A/MsmKIDFUy9q+ZyUOOnkEIKl1vgk68g2YlQAwZVgdqI2+CTqyWdhUs/rz0ZqrH5hm1AZ2oUBnDObbcKAYyUDLCljOvx2Tj2e262dzDmLmYC7jcK9aXKypQ/U/z3Qv01RD6yUVZidJQF7abzdFVk2Z6q7VRwGSmXw/7/25qJQ8ApCssZHEeM6TOwShhNK1Wl2t+s3Cphr8/oVYMG73uJjWp3t8o46DuyFXkpZWxI4AQHsqHruoe8XY5bnfPC4oEXBWCUYhtE4UJOtQdzCsFrlx09ZhfsA9Mnlp25bn+ZnI0184fb7tl1s3j/3b8s/Znx0+OaGlP4uiSPr6HtcBAPT1jc8SjYqASqeNXDYe2iDYLGyq8R7yRQutPEhH+Ch9t9xXwVD5pHz4uwPRPb1dPq4xYfvlx78YA4B2x367yQs+gVT7j0MSztYhezgYqHv/6q8kLGKExXaMJqORPlLHojMZRXOMpppl9DE7Fo3FjCajsamh8Ub4t3f/ObJqyqTV7JVe1K8e8kVJGUuCIknm018RnYaFWqBa9bNxzLDhAI6FWmcYNeegUt0NWtZ45sQPw5f/4st/oZTe/ZOv7228Ztsz3Q8wW4zUoVopMGXplJsolX67fMOg0/rT35/aDKo5m3Qpk7NSw2p6vpNq+0Falgtd+hNgTstcqLrNWFQfAECti3e231AqklaTCpRwh59uCewM3nopzyp4NGllk1dwI1DbPDst1kg+dTfkoGOeaWByCmrTinPKHN+Kz2zIFgzTpEt/r3zzEZriTvn75eOC8ev0Jq9rXHN6YPduId+FjOOslbiUiIpj6ftK4aO//8j40NcfijFKrDxyVlo3OOcHR6zmiiZorBQHkJkOnUF0RWTaLSRpZyPsUpI1WsO5kjROiHzqSeN35GOti4JklcjsUzNC/Nyx/uApTNVG6UKpap1Wgg1+/qatw6zWSeUnX9/b2G7bI9DkjJ9TGp/VDY+teP/qrySvxyfQv1FaETuiNMfkOj79b7XPJKLimHnmmOV2xFGbqzafb1ilEJ7ebjQZjbj4qyG88l4jZ61nilZ0xWnQqAneEZ40chwnAEAYraxL8Uu1aMFwpkRq4hMA4Cr2YaQWaNtyoRauwrtg77dlNIWlF4vLtY4rRQdvt3tcdLnWce7kMcmcjUD1Jq6ty29xqskIShPM7cbdP5GzUzJJFhzoTVyb4+BuI8dxSeJ1J52DekFhk500nAaYc9LSmNjT1QAAkx9O/fvXH1b4vt8ZH9zeabFGPrdxIwdUgsrx0SAPABElvRvJuctvaXKnTiKckLihNsdQx5/btOhx4VTH+3pTpxNPOmqbotoROBfIF75EpI0AcIrR4+IC50iX39LEC+obbkoFGK0Ygu7yW5rqrtVHU6QsAowL9JHy6u1325ZDLQAPZSNkDFUrpzVOE/a+gT3pgkaverxR4iYiwLhQig7eaPmldurt2awvnBBKREjrra29rZzXnSQNzkQKHqeUTDCa8f28gmXvOSLghiC/xvvvXr0LAGAS408pfcdHtff/AwDA2c2PG+HiRQF/QyexRhxOOz+3yc9hzepHSFrLP7h7BydoO1xpn4XbPS7mGkmj/z1sAYBT6MxWWg+HuwZuSStix0sxH2lfCsPiWc5ud/J0ldz0tY0ZCaQT+sW+4eX82zG3e1ykNbt0nWSBayuUkJFsZ4T4OWyPBJOG05FVUyZaalCpmdyOYXloTQ4HA3UiuWy4+oFpBjXLUmjcWNDIObAXHMJua6Q5dtZr84UhFVVRTBur9JG733fK3m/TbBTA8SQwHAy8LpdgMkhj0NI45FYuoJ8vyKfGPfMJO/M5Z4t9/tLly7MgSeS+rY/Nq1o3QZa98ezwyYnTf/rZZVs9vrsZvwGC4eQzJPPmTGe3NQIAkVyJ1miqWSZJQAhR1hOzQSmCBk8/3L9Lr9U1mtq05viMED+XSxMIoSnuZBS5+LLG3IksO15yOkz6xbrZyKopU4qI0o6aQkk57ZxLHYfXrH6EpBaa4lwdgmAGiXk9vnkDKQ/LkxHXqOzf7XJNvBDi5ngSWC7UpmUQb8/RUSRnl2sd5+4bn803PMt7yBd1gJ1f8+Aje6/eflfzft6/+itJbVPA3oC2no7XtBxUWKtZizRoyxg3ESVrNtIcO6t2r982GDguHhdv7rKYZ5Ueck3dWdFgID+71SIAfDh3UkhZrFobQr6nA0JA2nXA8kI+5Jz4AzhH34/cylLbBOkSstSfTwFAu9Znhrpzk68YysN3AABje08afiFcvJHzB83xrfrFuFEstYnWclKvy01Lpp1uWrHGuAm0XL8yKU+a0OoyonY9eT/Cumv10fP8hZm1Kx9tkGnJo0jcDqd9TyG9CVEG2TewJ4AdvN2FNoYlIIEzucF0+S0tmk7D5MlgVE4aXX5Lk9fmC6csRJsaafg8RzJIw3Fw91tKpCW35iKrpkzLhdp5t+PvCtwasgUVn8nX1q+Hv7p4EdT058/W/6e/5+JxSbpwcZY2lL2HfFHwKG+ekebYWTnJYVQEyhJyqWhGiJ+T64nyOtxKPoC6a/XRVler3ktJN7TzSNEhKUhWX48f51a6mTH6Lcinxj2gsNGlI4tKEO/OkKeUJwGxDiblSltPx2t1cqdHFhlQvwjEDGkPd9pa1oYoSNZ0FET3/CgIeqIi+WbWW85MmqAt5pyt20yLOn29EITC8k0BCY66h1EAGC2kvjN28HYcTMoftBSUK1F7PT5hcMRq3tkRCNv7bWNq3y3XhdOksdN3y3HNzis5BDEChH7OAEmn3kMrEz/6zaQhoGTNdfktTXANogDKySmJqDjGcVzW+F0l/XmCLHvjC/6RSdFgIITMRW84nHbeS5LHTCWakpdzpX8bAIDj4G7FbFP6/ulwQiTgfQN7FE8QLtc6LpRpACg2yAWYixaRO5JDAOBwPpn+vCImDafxBMQoc2Hx0n67acjjK0gW1Ju4trIStFzHRWJOHme5nKxkmoSGIJiRSpxM/JibqADjQiHkWyrIi/Bjh23Z66MAMNp99Oie2Vvv50zWKH/QHbzzCdG7+oFpBiQgwmDcuVxQ/j69iWsTRbEj5aid00gJCFJ/7Ij8mdExyvINOOkw2/BnHK9szdVdq496D/miUp2kc5r2qlp9ak7LP9l4UYILyvpzWt5Yv14HCuVFlRyScklK/tuSG1hsnixCW9SiIFkx6eeO8KTR605ujL+ZVD5BYEdyAADbkLVxyJPU9+XfgeSMkSVKWa8cx0n2ftu8ZyQKkrXSS8wuTdM5GRtfaBROek6W6/5aXa16juMSACDkSsx4nM84KlMkh4WCIE3GFf6QCEhemCNPjOu+cv2926lEhbwta9qi9vb4RnGsteoj49g5wM57k7u5qhWdijufI3+UNhQ0WVqqUNoklOSN1SsTP6KJ3+rvbFSSN1B/pkksPY4GAyED8dkzd77ZrPQbPqq9/x82xOOS62szABep7/58tAYABCX9WW3joWOb9w3s0XTY+Xr8ow6nnXf3+aKO/U8mN8br+nmbVPNvn5wCmJNuUnHZYaVQQyE8vf2YJyionZjQyR1ZNaUZpojSDsMCybmpVO1iyFm8rjeXnKBxMmOltGzEjNZyQ/zI3/T1kVmApEMMF6eX+ASa5KoZKZkkLJdnUjrkKACMdvktzlw6p3A8Cdj7bU+RT417UMfM1QmUsk4Vry/Xn0VRJN/yvRhQ2kyVHE80qQEk5j3rnd2BSZdrHXcn9T1q1uyQLRjG6Ih5Eoblmw3gH5l8aPqTryr9hmcGT4TFEz8knCx1fWdHYDKVTq45tl948I/3ulzruN7egejh7w4QjuNUZRHE4zeetDqcxuRYeADASctGXMYYHP5Oe4xOrU/5NgSlsVj3nzf8L4ezXlOeSFnPijKRz3Mk2X2GaG/gDKXnQDVfQi7Ajbmk5UZbXa36dM3ig7t3cCsTk1qefPG63uw74G/39hwd7esjsy7XOg6Px273uLjUPc7pzikSEKXOKdlqPetNXBu3MjHpOLh7B04KrRrPh787EKWtKiVgI9vIqimT1+MTMJNTjjUta193OO2895Avg9DP8xdmANIJHIqyhYLuPW9uoH6n9N3Nwe/fBgDgZyJPK+nPSg5gPBFcil+qzWa1dFqskVSilISOYSwfoPaZtu9tiyttUvL5j+GFStUT5ScOUZCsmmGPfkuTFhHgeG8WNtXkQy5MDikNORfSUAPnP2Z96kp1UyABQauZW5mYVAs5EgXJmibmlK6GE+JeIGU1KQQjQRxOO48LL9dazxxPAtzKxCTWeO7yW5pEUSRKlpYoiiRN1Ap4ON6yPkNjVWg9lUEcVNgf/f1qURLpk9EhX1QURaJFLLhZ5GV51NSdBQD42fr1inNbi2iF8PR2tfKrShuJ2mdSUoriJiWXhPA5dR89yquNl9qaw0xEVSLQ2IjVNrBMGZFhock5civqp+W1ogkarWYgUjJ+VCWtGInZ23N0FL3ROMnYhMhcuEO2YFgURYJj6zvgb7/DT7dkJeqUNT1kC4YxAkL+nuOjQZ7jOEntWr8z3LiMUocagWoRhyiKRC2Ub4NhwzS9KdH1uZWuv74m1bVbAoKWnSQB4eJx6Uzntmal4kiYPfjW12YU700rVvl77sAPcHPE96MRoXYSTEoQSR2YllKUrGe6Kwz+DZ3o0Y/Gn1GSeUAColSDJLJqyiSKIlHaQPPSOUWRuFzrOPwOe7/tuK2n4zWAZIgYW5ELazn7D468SG/2+mLJec5q3juppDOnq2t1ZyZcuMm4mE8N5nsNqWN6QhRF8kTfE1zKQdSeTaPO0KYVul9jMoqaDi0LEeS5lcpEOwSZ8ckYKx0zTr3ANymrCPLjulr8M97DzvbA7a4ZS9MQCYbRD/H0+Y0cwEVRTX/erK9JAAD0fue9WTdtRLjVfw9AsjhNalNLE22qTrSoppML4entnd3JKnwY+ZJeXAqZiihvRFZNmRxOe3pDVgutk59Q8Pq2IatpyBYM82GDpgOK/h45KaN0xXFcGAAyil7pTSYAgBfZKlw4cgZI+j7kRlVhBJ2qyRByhxK7DlheUJtcdGB9BjG72UMthKiHT+xq2NkRCANAu1oSSHKBJdPHHU672etWPrLHorEYz88nR4x0AABQIhkAgPYdFuFS/FJT3bX6KCYDubF2hYaFilXkMuQGXn3Sn++9MDPkTjoipRWxI0TSvfWlvqETAOr1N5qPDN2W+BEdGYinEww3C5tqQhBKqP0ejM2WJ45gBIla1Ef9/2x8XR5ffPi7A9E1qx+pu3r73YAaYUZgKqP5ryo5U5tfy/Urk+6+8Vlv0mkqaGV00vKU1+NrT8mIAJAMW+Q4ToSUszrTkT+3bgEArIOWRoAgi53WmM94AiqWnMXrenNnt3XeWs2boB1OO394diDKubmE2k3JM6mS+nIyE46hKKKezOie4rSfVitpiZLHrgOW7d5+36lUokpafjLG6n8sj7IASMZLZ0uC2fdyt2nIk359jmiypDrbhqyNXX4LYIKK2iYB5vhWb8/RUQCsM50ILG9sMNz66DZw8fgo9Eq6+z5Qrr/RwnGS1K18NFcjWvKpcQ9IQDbvTxH53GaiWmVPCE9vP/brI4mxr55Mf1ev1KvjCDfrcNoltZNHp8eazqLNFq1j77cd9x3wt6efhXuuvnQu0QGpqoFveW1HTgCQDF8BhnXKI6wit6J+/8GRUZbYksVGlYA83vsEF/KEhGJr0xheDpgOx+OikiGlz5ecsXaF2k3J01GZvlx6jTp9Iklae+27DljOqe3efFPtCXu/bcvOjsykCzUNLFUjA3LQuq2R5tjZfNLY6yaMT2NtZ83r8yRg6+n4Y6OpZhnGX9+5NRXHuOvhh4dM8IGC9ZzUpNtm/9ogASSDKkSDgXAen6AWXhe5FfX7PSNC1ypLk9czR0hYklTNyn/y9pffuM91hWtzz0Vv/F3v3+kAYFbNUv/lx7/4nuPg7rfSNWdM2Ql238CetsitqB8AoK7RZAMBQKklGI6b0ljuG9gbiNzqmLsGJECptEKKnF9EuYqtNnXL+fHeJzi1Gub5aM50Fq4SV+bsJOyVenXe1ERXuikMm/P2HB3FOGZGzuWD2z0uiqJIuvyWpmP9wVNa0R56E9dm6+l4zevxCef5CzMgAYkZp+Y5pXLpnE0v/OVC7Q2OJwGlIvtqn3Ec3L0DswPTVQaVyLzRZKOvK17Xm3NJbT/Tua2Zi8clnIPDg+0NAADv37jynOJi+0+kDyQg8vjvwd8Oxeas7vmESIfVIdaufLQhG+GqjZdWSGVdo8mWJFZlGdHbc3Q0W8SG1jXwOkjOxZS5vRf05n0vd5vecb8jlpuccyZoh9PO95G+WewZp0TOGDaHcczsUS6M7DFkC4bRC+87cKxDjaTrGk02e7/t+M7PdBmBgKRIjvJFnkeYFk2kKE+okfR/iGu35nN9umvJtw0GrtNijUyQZW9ofWbPJ48tAwAY/vBfplBOUVokQ7ZguGvQ0ihfINjtXd6jEu9baZ4jyWtFuaiNl9aYZfssRp5ki5tXwx1+ugVPNoycc1IQBEf/rpFyk3NOBI0XUGvoKYSnt2O7JCZpLJ41nQxDc5h8B/ztQnh6u5oFd/X2u586nHZeyTLEuGN83l6PT1C7lhaRdvktTVpkkfgDOIdzRfN9eCqj4oy/85dxSTQYyL8t/9w8HQZrQIsGA3nAPzIJMJekgeU9M04Mnxr3OJx2vuX6lUn5a2+Cjmj9RjX5CUku27ilw05TnxFFkYjX9eacxlmQrLoAn64vnO6E03N0NB+SFgXJerj7SA29ybPVpM2DgyNW80JYzuk5mk1rUevdRh+vGDFXDgrpFUhPnIwGpU47/6rHG81mLWANFSQMLANLNzila3Z7PT6B9oDbejpeo4/f8san8vmFDWDPdG5r/sOJa88BANz34OdPPZCqYKfWvRvL26IVjPehVno2XQcm1aAhp89AZkNQWp+Xj0HGe7P0MtT6LL6HDnvFJBl5ASgAqtmt7H7Z6tF+nvk0Yi4FOWclaHTmKE2YaiTnm7YOc3Pw+7dxAUvdoJv9a4OktKDl78XqaF9RqI62FCYU3epd6XnSnv/05JF0b61pWfs63Z0GP5uso5F7cwGH086vWf0IwZ6ASKhqR266lkWaT7tBRwZgNmcLMgvRao1tPtf+6O8/Mj74tQdn6O9SbYpAdfDBmPU1qx8hdAy51rjIX7vy+gnj5TsxffsOiyD/rUxvzv1552vwKJFzQyzUSbeiy+VzJNuNaXVarqYHrGVZ0a+JBgMBAFB7b7WAPvpqheKpWc/5kJLaPKCt6XQsr4J/QqngEkoG2RbPYd/RKECygBLKGtkMDgDtpg1an8vHGKF/P/4/xjOrdcZR60eJn+3rG5/NtvHRJXnlyUTYwIJZzAtrOdNhx/mMvaYFrRTnXG2WM024l7ZteZ6fiTyNKcL/oW8auVb30P9A3ZImZvl7AZJdojf8l/99GvrIrBbhVxpJAwBo6WaiIFmXz1z6/sOf2VmrVpwHSQoXPkBSs/Z3BW7la4WqWZz7Xu42JWt8g7SUFnohlrpcaoFCx0QCIs6KUIpndC9KhcUmoCSi4tjAt4905NJ8IieCpi0vuUmP3SKqxXKmZYlfbt08plS7AQDgYsOjD71z4oef9gPMcvG4pPXeCbLsjeNfaus6fG33dD7H6cW2ArRIuhpPRAwM5dpMbUPWxqEcMmOzAePKXa51XC4nHyXo5DdXd60+qkTOWAKvmhZxLuQMAPDQ9Cdf7QeY3e/zmd574cvHtN7bLN3985ffu1xDBmD2pq3DXOljQGdzqnV25ngSwOgDVmqS4V6WNDB01d5vO14MOWNcOYZjFnoqzCBo25C10evxCUplEtv/cKOtmuIkz3Rua/7KxYvipW1bntciXIBkXWEuHpfafzY2dF8i3JHrd3ynftlMNU1A7t+lXtWTsEZpTAaGpY7BEWs65LHY1G08kaYrfRYBHb17oAUlv7k7/HTL2ue2x6plsKVu0D07fHLipq3D/HDs46z60f2N/3XPTVuHORuRo8TxgH9k8qcbN1ZF3ChdaUsrkyxVt2EHOkXYkmW4lyxnLBGr1WQkFwjh6e3oo8vWhi5vC3o4GKiTSxuiIFmrLZD9E6FjOQDAJ7f+NatViIQ7G758M5drY4LEmsdWL6uGiQeQKrCTg6MDpQ6lxA0GhqVKzqUIo0NDFjuhlIordQBzRfeV6hW0frxpLNkIc3y2Ggb8pq3D/IB/ZDIXaQMJ99K2Lc/ncu3fGR/c/uzwyYkznduas4V0VQq8Hp+g2BVFLWvNHN/qdo+LWMuCgWEpQhRFQicUFUvOWCumFLLGPILeLGyq6T56lJeL4kJ4enu6KEyVhD7dz4/cAVDuVyfHxYZHH3p2+ORELu/9D33TyIaT537w040buWeHT05Uk7QxL449lWKslBZcjGOEgaFarGaO4yRcH8XM+URUHPtDc/x+TAMvhayRQdC4kGdvvb9V/iJGbVSLtCEaDIQMwKzDaeezWc9Izrlcd4Ise+PRU/+466cbN3LVlEnocNp5xTj2lM7s7Tk6qlRcqctvacKMJ7acGZYSsMbMK68cN9r7bceLjXH2HfC3o35N11svqQWtZDlhsZd0X7gqABePS1I36BrqvNNa1c50TesfeHb45MTpP/3sMoCkk1CLnL9w+nzbTVuHudrIWSlUEsvBYjilUugdSiKFNG1lYKhUtLpa9Z0Wa8ThtPMz912+W6wz0HfA3z44YjVj78py3DNBi0meyri64bEVlg6rUG1ZXZgRuM++22T53eUh2pKeIMve+Lfln7NjhMcD/pFJrN9waduW5+mIjwmy7A2hpu7shpPnfpBvjYdF++2p/oXvkHdmnQ17p+WvS7WPmGf/77+m05yxy4pSWBHW5si3pgYDQyWui1K1pgKYkwiV6sGUGvq0xWTKPAZ3dlsjv/vtOg6gumo7p9OvPT7BC9A2HAxYGy/+k+nWxi9Gk2nM59OORAAAMgCzLtc6boP73A8A4AdnOrc1AwCg/FEt5AyQbEUV8oQER/+u43pZt4zkpNotoP4GkGxvBRIQst+4B6iedACpfoEAo4Hj1gaA0h/dGBgW6kSZauhbUnJudbXq3SXWmxVP+1KvpJNbT1hwHGsuVOWuaTCQm7YOc6fFGnl2+OREp8UauWnrMLtc6zh5BIbbPS7SxIy1Oc50bmuuFnLWLG4lq6mMf/d6fAIWq5dr0Vi1DgveMzBUIznTySfF6s1S7SNmrJUeWgByBgDQvxRx1HKyRj111+qj2DSzWh8OF49LkKoPnP6bRmgcWswZRZOqIFqDnoiKERsppyDVw1ARqXZX6c+mrtP+Tl9IJKzZL0OVAfsqzvliCo8alfdZVSsoVhYLOl2MnNopvB6fsO/l7iXhIOLicQn/yef9VWclHNy9Q24h0FlNaloZpu6vaVn7utIkJwQkURQJW/IM1bIecF7vOmB5oej4ZqqQGEhAFjqiTSdvfYSNQ8/zF2bY464eclaKwsk1qwm923KZA3vsLZXNmoFJGvlIGtjzMV2DaBGc5Xo1/XntykcbQhBipSerkJyx8mCuKaebhU01IQgl5DJH6nQ1ykaboRqsZozv54TEjWIkjURUHPMeONZBgEjZpMHySxwyoNU0tDN4iz366iRn3wF/eyEpp/Ju1NgJezn/doyNOkMlAuc5rodiOp/gydN3wN9OJAJa0uCiETSTNqqDnJVSVOnWVT/v/XnOEwuJ3N8VYJsyQ3VAAuJyreOwSW6x9ZtR0jjWHzzV6mrVAwGpEjKodUrHXfb054qpVIqDzOG081oOQZqcc+m3h9ej/5/jOInWoY0moxGgusMtGZaopEFAcrvHRSx0VGz9Zt8BfztKJAsVQpcL9MyCntOwzvMXZjYLm2q8Hh92QBa8Hl+6CediHXfkbas4E5kXSufr8ScLhPf5ol7iy+rMyMU6kEseDAyLDdSEsRmyfC3kTc5UjgAAgNfmqyi/m17Jgg5BKCFBlo6yVX486hq0NAIkw3FosgpBKCGKIjk+GkxblwsZ96hGzl1+SxMfNnjklgJGa7S6WvUhdygB7tyuiR1UsNuw0vvQH8HAsNjAVnvYyJVrSpwo1hFYaKftRSXoVIEcYSmm+Dqcdv48f2EmREKJIUjG/2Kb+7oJ49MSmX1Kb+LavuV7MeNz+wb2gChIVpg0nF7IB9nqatV7U9YCJyRugGn+0SyfPpFYeyNmnHqGN9W2AQAIwtQ5ADiF75kR4ucaH2rYceuj26M+zxGhWrq3MyxtYwq7PUkrYkeKkTPoE6f8dFoVBI01GJZSii8dhpP+f3N8q0Rmn+JMibblQi0AD6C1I3M8CUSm7/5xb6/kuB1x1JbzoeKkCblDiTlrQflo1upq1efaJzLd1oe6Xg1v2AIAp3BjNpqMxju3puJqDWYZGBbUaibB8BCkkk5KaDW3ulr1ob6Q6CWVbXzMI+hU4sooSh1LiZhRJuBMibakgJPfw65rNNmu8519uJuXg6TlGpuStXCHn24Z8gST1m2OMZp4v5FVU6blQu3cBEildKOccX4mdHLz5KbTQ56gQI8dA8OCr9tUqnapreb0ibMKShjoE1FxjP7xuGAPf3cg6vX4qvYh0wHmaf1W4NqgyJy4VGfsF8tlMbg1jnJoAQx5gkJSrvDlLUHVTRifBn7+9+Ji8Lp9QghCibSmzcCwSOs2GeefCJRSa0bir5bx0M/LHkstWI7jwtWoP1JhZmKa6EpAzAijqWZZOe7Z6/EJ6foBCkc5DKPD9+dLzphsEovGYjxfm/FaqkB/e8b9uJnlzLDAckbKCTh30iUls5rRn1Nt46KPNMfO0kfetJVVhSm+aAl6Pb6S7L4LtaHg7q52lKPraqQ2n5JONL2Ja+vyW5xwDaLJAv2MnBkWbv5HVk2ZhmzB8CuvHDdG60IvcAIJFGNQ0VZzr9Sru71/srZaDQ79kC0YtvfbMmQOjicBh9N+2nvIFwVP9TxoWrMqdvddKGLObE81fzMRr+vNxzxBAS2AQmWnZLLJuIDJJ/Mmwu9hi9fjOwVg5wEYQTMsqJwhOA7u3jHDXw5wRQb3yiM0+kifAABVO591AHMV7GjEjFPPAAFpOBioqwpyptqnF+tQ0ILSWOU1gUSRYCPedIqqQknEdDWtUmc3TRpOK/2Zb6o9gRY6axbLUO6TLkCyUUaX39JUbJp2xnpJlQYtZ5/ABbWgAZIZY3KZI7Vgf3wpfqkWACKV+gO0alOUA8Vk17lc6ziO40QA0AwbmhenWQKnBk7WNasfIVdvv6v4HmlF7AjHce0Op52xCENZ1uqrh3xRQihHeJH+IZQzfJ4j6YCAIVswPGQLLokx0+EPktcCRisaQ8oq7cZpS7SQ2q+JqDgmCpJVFCTrHX66RbyuN+M/d/jpFlGQrEqfw3C0fHZn2mLQqlVLWwEu1zou3+/JBrW6z+nd2sS1OQ7u3kF7vBkYSkHMaEgRAlKpTrp0DQ1cL7nmBFSNBY2EIzTFncuFzAFDK7oS0yH3vdxtGvIEw7aejtdyfdCJqDhGJN1bMGk4jTuuCgQAGBVF8cS3fC/GipmYAMmwnrG9Jw2hBy+0qTku5XGa7jJMNKzxPSPEz6mNGceTwK4Dlpi333eKZREyFEvMkVVTJjwBKpXHLcZq9np8AkhAHPvtJvcSjToi9LFAqeEoAMDqhsdWXIpfqvV3BW5lq5K2kLKG2v0qPVChKe6kd1ckz8iqKVPdtfooPmwgIOFrKTngU/lYdFqsEXyv1sTE79OamIpxmmUiRVEUCafjwLHfbsrWCojWv5eaVcKwMMScnv8lSjbJIGaKt5byWCZdpqldCABAzWHlO+BvT3pdF7eAdT7kLH+g6YmzM3hLq31NqmGu1OW3NMkLgOsCPH/o14cSap/r63tch2OkVuCItpq9PUdHAebqZFTS+CFJV8JzZ6g+Ys42//OVM3CtdPktTZViLJZd4kjRtATOpOW264Blu1wf1Zu4Nnu/DdypTh2hvpC4GP25MM5ZqXv1PI0iFTsMkNResYwoAAhg0/4enS4pQVy5/t7tL5ofz3ht0nGrAWyQkcSDxJxyAGZNkElb9N1z+n4hWYGFAGtuKCUozZM7ViYmHU67GVPPmdzBkIOUIZQyczejSFnKkPTafEvGCZibBZ0CpveqWVe0Jd3b+87sQu5gdEKH1vE8ERXHar6/rOvQrw8lCt1ptb4Ld3KXax13R3jSmO9RjrYE8rFMJQmIddDSWHetPhpZNWUq1IJIJqKA4ukgmyXNSJphoSzme1HOyErQuRyB5SnHC7FgRVEktiFrY921+qgWOSP5SRKQl/bbTYXeG/6uwRGr+TeThk+Ufj/923Ml5tX3dYzt3Lk+nq/WrDY5i5m0+RA0fSJZjM2ZofKImZ6/5STme70mDFEiw30vd5uUHGRKg7gQ+iR+h5ZuilZeSb6QchYqbQi0RZmNmIuxBOhNoMtvadL/HrakMwGp2tSomefz20RRJPlGqMh1QOY8vLfQ5bc00f6bUhMz7ci/l3TmvAg6HzmBJsVyLVg6EUUt1rnUR3CUAdR+P8YRZyNmesLlu5Gh0/A5OM09dPBn31SKAimGMLM921w2nFZXq/7nvT8XmTW9dCF3fJfbYi53JNOSIGiaGF955bhRqL/k14pEMEVaT33nO+2xcgwuXlONTEpNzqIokuETuxqufmCaSdVOvpHvhJsR4ufQQVmIJZDrBlnIGGhdW156NhfJgx1Dl66MQevLw8FA3fs3rjxXqmxdRsxFErT8iJ0tLIu25tBi7OsbnyVFRHtk1NjQsCCLJWc6a46+znAwUKcm82Qbg0InXC4nhmynmYzfc8gXdey3m1LRG4BVw2buu3xX6Rr5bEryhAFsTcSWVfVay0/0PcHRm22X39JUN2F8mhFzBRI0PjTbkLURaxVrkQZm6tFEjWnO+VqRmFTRNWhpVCIMJWddvoRMWwjyCYn9CXMl5ld7jpwgQKR0KFCBxAxQeMaVKEjW1o83jbV9b1tc63vUdPPD3Udq8L9zTQKSb0wY3cIWXPVay6WWMXC90pIfI+YSETRtEWMtiVyygkRBskaaY2fl2XvL+bdjd4Qnjam6xlKh1vPqhsdWvH/1V5LmdVJkGVk1ZWq5fmVSiTheeeW4ceIzb9fnS8rzSK0ICxJ/69jek4Z3Wt4OlCTjStK9taZl7evvX/2VtPrz0Zqr1/V/pvX7lE4j+W4UGacoZlFXPCkv59+O0doy9uosZdExJSd5OnOXoXQEjYOLCy7XIzhd/0LpoaDFdZ6/MLPzM13G96/+Kk22asftO/x0y9DO4C3HfrvJe8gX7Rq0NLZcvzL5JujIZmFTzXn+woyaJjocDNRdil+qLZSQ5VAopp/zKYHOHizUaVcqeLq/Z3zJ6TB5PT4BI3m0Nsh8TlHMmVi5pIzacinWgpaBxoh5AQgapQdcvHMFgHJbwLh4I82xs+trODFbarMSOdBx2NkwHAzUvX/1VxJ28AbQjrxQu+d8shazHfHliyTfMSwH1JyM+Z6alJ41LbmwRVoZpFwOCYN+5q/Gj/wN6SOz+D0sXG4BCVrJmi7maIQhazNC/JzRZDSuXpn40dUPTDMAyfrE8gkkCpJ1Tcva10Vy2YDvwyN8LBqL1fCGLYUQsZYFUEjdD5qQ8DRAH/fPdG5r/qfPLv/vi0nMtCyhVgukVNq4/ATFtOoyISUttVy/Mikn5XJIGDj35cXIXK51nLvv8iwQwoh5MQha6Zherp15IUBb9xm6aUrHzlV+UNLeMxYIAOSzSDBsr4Y3bCn1mOZaBIt2FBdTmUytqiD6JRhZF2clK41hqaMw5OuF3niVnI0Mi0zQShZ1ObWtckyy1SsTP5Jbj2jhASQ9zflENchPB4hCxkGejFLKBAHfgQcsDudkbbLLRfZwSPoZF3svihuZBMTVu053R3jS6D3kiy5GQa5qIeTz/IUZAAC5r2VwxGrO5hAuh7XMNtgKJ2h68sh30VI75gqdWADJnoJKFq6aFZJv0ki57p3W3YstfI6kj6GM+RIhbXEXW+tX9eQC6vHp96qFfGPlWrN8jNJ1asq4ttKGTKqWDLOWq5ig08ZQqvoawPw2NLTzDgCgUAdeNiIGAIBJw+nW6da4Umywy7WOu7FyrTmbEyNbQ4OFAB0tUuiGQVs/xdZQKVdRdrSslZyJdPz6UnU8OZx2fvXnozXoX1HamAqJ1S/Vxsms5SVC0JlsPdcQQMsawgiRyKopk9LxWRQkaywaixlj9T/Ghbq+hhNxMmuFudFWSN6RBJJEHPsdplfrvNPOhr3Ti/WwkKRxw8jV6aNUiKZUlk/ZK5uldE61edPqatV/A2al9HOtAmkE5zkSsZpcQW+EC3H6VAuJZdE3S52gNSywumv10fP8hZm1Kx9tQNJRi7+lM93UMDhiNQ9/+C9Tm4VNNRntrEqwyUgA8FIeDsNyAFtu0c7ZdP2QVCQLAIDRZDQqJQqVSy5QsqgxvLGU2Wh4MlJzxMpJRR5fn2+seqHkC5CMLvrow/G7GJ+fbezlUmCpTpWFWMr4PFmI3D1K0FoL/fB3B6J7Xdbn5Ykwd/jpFgxbo7FQVhMtL5TiOF+MFY0FinKxhmUdZRZk4y1n2rAaacOk4fQXJ8P8s8MnJ3Ih0fP8hRkkzkKB1m8uBEwbEZdnRK5uwvh0qSW+fKSub1yOEXqsGCkzgs6ZBJUyFdF6zKv+cZnuTwKJOPp3jRSzqPKpHkfLPN6eo6PyCnK4uOj3LupCw1Rvqn4wJuUshKNYHl+PMsma1Y+QTos1Uk4LGptLNH1m2X+7/vGNRqPJaFxoEs7FSsbNc9HnCkP1EbSSxFEprZfo6IdCrGk6cSNfx6Pcgq6GSYZhYfT9VkoYZiIqjsWiM3eTslDNMgDKwSzfc1IkCwAg/0wlhZLSWrLhb2tmMpocU/4gpilXPvSVdkPY1FTxxWTUx+hi3yNaGtjEFgDaB0esL8njT4XJ6L/wZtMf0ZEla1rWvt7ZnbTgHE47D1I8a/PWjMX3B3AOAKDzs39UH4LQZDVMMrnD6cr1926nrNhRABiVeiWLtaVzxWKEYepNXJveNK+zqcr3c9TnTBUzvnQ8Pyetj+P8oiWub8CsdEd40uglPsELjJgZQReIdGp0c+zscqFWyYIZrZR7TUdSQLor92jqH81aIenO6PsBvD1HR+39tpxJaYNhw3Sds55fqC7g5RgzuWVN+kgCAMI4foMj1pdQo63kRKfFJONIc+ysfDyTCGSUGPB6fELIHUqEAABgnBEzkzhKA7Wmpnf46RY62qNS7hdbA70JOvJOX0icnZ0LMe7re1wn7wCetqDRNsulc0pKf16K/QC1klIWI7qhEogYT12R5tjZDYYN00rauSQB6e1dpysofJSBEXQh0GoSG7kV9fsPjrxYaQRdDDHlknhSTIOCqkNKJ9Wq0TG296ThZ2v+cTkAQLUStzypCqs81v/iixG1pgu0XFHukEEGRtDapKWS0pxRD3oJkBWdeKLWpJZ8atyjZF3eK8BEIwCAbJlsdHIHQFIai0Vn7hpNNcsWMpQNv5NIurdi0VgMY9PrrtVHs5EravUYvsfImBF01ViVS9GapLuqYCgaWld08XsGZVkEY5rzmQ/DwUAdAADdJCLjtJbKVMX/vzwjckpx+GtWP0IAAPIN38MQt7pr9VFMqmJEzFDxBE0T1r6BPTNKr8vTnpcSSbNpWRqJBOPCaVJFIi8XEaLjUykBJp3Zyir1MSwVgtZqrVUpcdHlkDzUCv0Xeq1iCGmpbhyiKBIAAEzNRgkFZRS1z9FSC/6NWb4M9xRBoyU0PBLgr95+91PVRbZESboU5CMvJZrvGGW8XwLCrD4GhoWFrqItyUFLY6fFGhEFyar2Hm5lYpLWrNkjTVrNHMdJQEByHNy9w3Fw9w4co8ERqznXa+CYOpx2npEzAwOzoFWtuGwp0XSM8L0cD4op4Eop6Blx1FSNDKXPA2Q2Blhq4Y0MDIygS0TQWI5UKXGFhry7djEF6asR2cIT5WNEx9TmUnyfyUkMDIygFY/bQ7ZgWMthiJB3116KWXda5JzLGCl12QaYK2CkRu6MoBkYGEEXTUD0cR4/u5T7p6EskevY0JvZjBA/BwCQS9dwqfYR88Du3cJilntlYGAEXcVHeC2iRumjt/ed2aVCMPluXIXinko1Z2CoEOiq6Wa9Hp/Q6mrVe3uOjgrh6e25fIbjScDebzvuOLh7x7cNBs7tHhc5jpMcTjvf5bc0YSxsNZOzw2nny0nOAMnC92y5MDAwC7osljRtUSv1XyskVbgSxgEgt0p4zHpmYGAEvSjWYyH9AdU6GAMkNV2AZJ+5Ss0QwyiVQjapfFGpJV4ZGBhBVzDoCI1iiEqrZ5vcWsUSmABzleUkCQgpIpFDNBgIAIDuL+OEDMBsrp975ZXjxpn7Lt8t5xhjWB4jZwYGRtD5k1uqQ3M6k9Ac31qsRZm9a4X6hqH091InztBZgb+ZNHxSbmnjXowpZ2BgBF0ua7pERC0nK4BUcfVJw+nVn4/WXP3ANANQeKfoM53bmp8dPjlx09Zhng1fvjlBlr3x3v27dvxysH32r+JxMRtBDwcDdVp1SooBZg4OBwN15eyCzcDAcA8QNIJOVV7oztFI4krwHfC3y+OHf7pxI/eVixfFS9u2PP9w7OMTAAAXGx596NnhkxOiwUC4eFzKRtL5dAXHuGejyWjUGhPaKfjqIV+UsDocDAyMoEspezzR9wSHRI0W9mI1IU2nV8sqwqF2fdPWYb55+/99J8oZ3lp/4s0f9vU9rssmKdClMrNFcSSi4pjQFHfKpRp6TNITIpWFyZJRGBgYQZcXEpCuQUujXAOWNyEtB2FrRYmUCmhFqzXYBZifUQkw5+hUuy/mEGRgYAS9oMCedmrEhOng+t/DFqPJaIxFYzGAZAq01nVRMgAAgEnDaSU9OhvhYRTHhOWbDQ/4RyYLIWl5uCFdkwSJWX4P8k7aau9jYGBgWFAJBOscq0VeFItWV6u+XNdWImn6v+n/X6h7YGBgYBb0ghFdvljspp94QkDtmlnDDAwMDJUGCQhIbONlYGBgYGBgYGBgYGBgYGBgUEE1l2ZlYGBgYGBgYGBgWHjreTgYqGNWNAPDwuH/A4tBtiBSW+/dAAAAAElFTkSuQmCC";
 
-/* ============ Verschluesselung: AES-GCM, Schluessel aus Passphrase (PBKDF2). ============
-   Der Schluessel lebt nur im Speicher der Sitzung, wird nie gespeichert. */
+/* ============ Verschlüsselung: AES-GCM, Schlüssel aus Passphrase (PBKDF2). ============
+   Der Schlüssel lebt nur im Speicher der Sitzung, wird nie gespeichert. */
 const _enc = new TextEncoder(), _dec = new TextDecoder();
 function randomBytes(n){ return crypto.getRandomValues(new Uint8Array(n)); }
 async function deriveKey(pass, salt){
@@ -88,8 +95,8 @@ async function decryptObj(key, p){
   return JSON.parse(_dec.decode(plain));
 }
 
-/* ============ Lokaler Speicher: IndexedDB, mit localStorage-Rueckfall. Alles verschluesselt. ============
-   Am iPhone koennen bei lokal geoeffneten Dateien beide Speicher gesperrt sein — dann meldet die App das. */
+/* ============ Lokaler Speicher: IndexedDB, mit localStorage-Rückfall. Alles verschlüsselt. ============
+   Am iPhone können bei lokal geöffneten Dateien beide Speicher gesperrt sein — dann meldet die App das. */
 function openDB(){
   return new Promise((res,rej)=>{
     const r = indexedDB.open('mut',1);
@@ -158,27 +165,94 @@ async function getAll(){
   out.sort((a,b)=>a.ts-b.ts); return out;
 }
 async function exportJSON(){ return JSON.stringify(await getAll(), null, 2); }
-async function wipe(){ await idbClear('entries'); await idbClear('meta'); KEY=null; }
+async function wipe(){ await idbClear('entries'); await idbClear('meta'); KEY=null; APIKEY=null; }
+
+/* ============ Redende Ebene (KI): eigener Schlüssel, verschlüsselt auf dem Gerät. ============
+   Der Schlüssel wird mit derselben Passphrase verschlüsselt wie die Einträge.
+   Anfragen gehen direkt von diesem Gerät zu Anthropic — kein Server dazwischen. */
+let APIKEY = null, MODEL = 'claude-sonnet-5';
+async function loadSecrets(){
+  try{ const a = await idbGet('meta','apikey'); if(a && a.v){ APIKEY = (await decryptObj(KEY, a.v)).k || null; } }catch(_){ APIKEY=null; }
+  try{ const m = await idbGet('meta','model'); if(m && m.v) MODEL = m.v; }catch(_){}
+}
+async function saveApiKey(k){ const tok = await encryptObj(KEY, {k}); await idbPut('meta', {k:'apikey', v:tok}); APIKEY = k; }
+async function clearApiKey(){ await idbPut('meta', {k:'apikey', v:null}); APIKEY = null; }
+async function saveModel(m){ await idbPut('meta', {k:'model', v:m}); MODEL = m; }
+
+function systemPrompt(){
+  return [
+"Du bist die redende Ebene von MUT — einem persönlichen Werkzeug für Ahed auf seinem Weg mit PTBS.",
+"Du bist kein Therapeut und ersetzt niemanden. Du sortierst nur, was Ahed mitbringt, damit er es zu Maier tragen kann.",
+"",
+"Wer Ahed ist (aus seinen eigenen Worten):",
+"- Der Schmerz in Beinen und Rücken begann nicht im Gefängnis, sondern früher, unter Leistungsdruck (Abitur). Der Körper hält, was der Kopf nicht halten kann.",
+"- Muster: Liebe war an Leistung geknüpft (Mutter). Daraus die Gleichung „geliebt, wenn ich genüge\". Das ist gelernt, also veränderbar — kein Charakterfehler.",
+"- Christin berührt dieselbe alte Stelle. Beides ist gleichzeitig wahr: das alte Muster UND die echte Bindung, die Kinder, die Familie. Sie ist nicht schuld. Die Angst kommt aus der Geschichte, nicht aus ihr.",
+"- Gefängnis und Folter (Schläge auf die Beine) kamen später und banden den Schmerz an einen gefährlicheren Ort. Der Schmerz ist deshalb auch eine Tür zur Erinnerung.",
+"- Substanzen (Ketamin) haben sich mit ungeschütztem Öffnen verbunden. Das Praktische dazu gehört Maurice — nicht dir.",
+"- Heilung heißt nicht, dass die Erinnerung verschwindet, sondern dass sich die Beziehung zu ihr ändert. Einsicht kommt schnell im Kopf, der Körper ändert sich langsam. Diese Lücke ist der Grund, warum sich ein harter Tag wie ein Rückfall anfühlt — es ist aber keiner.",
+"- Anker: Maier (primär, Erinnerungsarbeit im Körper) und Maurice (praktisch). Tempo: رويداً رويداً.",
+"",
+"Wie du sprichst:",
+"- Deutsch. Ahed darf auf Arabisch schreiben; dann darfst du auf Arabisch antworten.",
+"- Benennend, ruhig, kurz. Ohne Trost-Floskeln, ohne Moralisieren, ohne Lob.",
+"- Körper zuerst. Bleib beim Spürbaren, bevor Bedeutung kommt.",
+"- Eine Sache pro Antwort. Kein Drängen. Stell höchstens eine Frage.",
+"",
+"Harte Grenzen:",
+"- Gib NIE Substanz-Rat (Dosis, Menge, ob, wie). Das ist Maurice. Verweise ruhig an ihn.",
+"- Deute NIE kausal („X führt zu Y\"). Kein Muster-Urteil. Du spiegelst in seinen Worten, mehr nicht.",
+"- Keine Bewertungszahl, kein Vergleich mit früher als Wertung, kein „gut gemacht\".",
+"- Wirkt Ahed überflutet, weggekippt oder in Krise: öffne nichts. Werde kurz und present, bleib beim Körper, und weise auf die Krisen-Leiste unten und seine Kontakte (Maier, Maurice) hin. Du therapierst keine Krise.",
+"- Die Erinnerungsarbeit selbst gehört zu Maier. Du hilfst nur, sie für den Termin zu sortieren.",
+"- Halte die Kopf-Körper-Lücke: wenn sein Kopf rast oder er sich als Rückfall liest, benenne, dass der Körper auf seiner eigenen Uhr ist.",
+"- Jede Deutung, die du anbietest, ist ein Angebot mit „passt / passt nicht\" — dräng nichts auf."
+  ].join("\n");
+}
+const SKRIPT = [
+  'Fang beim Körper an. Wo spürst du gerade etwas — und wie?',
+  'Wenn das eine Richtung hätte: wohin führt es heute? (Nur wenn es sich sicher anfühlt.)',
+  'Was davon willst du für Maier sortieren — in einem Satz?',
+  'Gibt es einen Satz, der für heute trägt?'
+];
+async function askKI(messages){
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'content-type':'application/json',
+      'x-api-key':APIKEY,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({ model:MODEL, max_tokens:600, system:systemPrompt(), messages })
+  });
+  if(!res.ok){
+    let d=''; try{ d=(await res.json()).error?.message||''; }catch(_){}
+    throw new Error('Verbindung zum Modell fehlgeschlagen ('+res.status+'). '+(d||'Prüfe Schlüssel und Modell in Daten & Schutz.'));
+  }
+  const data = await res.json();
+  return (data.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('\n').trim();
+}
 
 /* ============ Texte — benennend, ohne Trost. ============ */
 const S = {
   app:'MUT', tempo:'رويداً رويداً',
-  fenster:{frage:'Wo bist du gerade?',hyper2:'stark ueber dem Fenster',hyper1:'ueber dem Fenster',im_fenster:'im Fenster',hypo1:'unter dem Fenster',hypo2:'stark unter dem Fenster'},
-  leseregel:'Zunahme der Spuerbarkeit ist Wegfall von Daempfung, nicht Verschlechterung. Was jetzt kommt, war vorher auch da.'
+  fenster:{frage:'Wo bist du gerade?',hyper2:'stark über dem Fenster',hyper1:'über dem Fenster',im_fenster:'im Fenster',hypo1:'unter dem Fenster',hypo2:'stark unter dem Fenster'},
+  leseregel:'Zunahme der Spürbarkeit ist Wegfall von Dämpfung, nicht Verschlechterung. Was jetzt kommt, war vorher auch da.'
 };
 const FENSTER = ['hyper2','hyper1','im_fenster','hypo1','hypo2'];
 const W = {
   substanz:[['keine','keine'],['thc','THC'],['ketamin','Ketamin'],['mdma','MDMA']],
   ort:[['umschrieben','umschrieben'],['diffus','diffus']],
-  qualitaet:[['ziehend','ziehend'],['brennend','brennend'],['drueckend','drueckend'],['pulsierend','pulsierend'],['hohl','hohl'],['kalt','kalt']],
+  qualitaet:[['ziehend','ziehend'],['brennend','brennend'],['drueckend','drückend'],['pulsierend','pulsierend'],['hohl','hohl'],['kalt','kalt']],
   einschlafen:[['leicht','leicht'],['schwer','schwer']],
   janein:[['ja','ja'],['nein','nein']],
   unterscheidung:[['ja','ja'],['teilweise','teilweise'],['nein','nein']],
   affekt:[['taubheit','Taubheit'],['angst','Angst'],['trauer','Trauer']]
 };
-const KLASSEN = [['familiensystem','Familiensystem'],['beziehung','Beziehung'],['mizan_arbeit','Mizan / Arbeit'],['angriff_integritaet','Angriff auf Integritaet'],['leistungsbedingtheit','Leistungsbedingtheit'],['ausschluss','Ausschluss'],['integrationsereignis','Integrationsereignis']];
+const KLASSEN = [['familiensystem','Familiensystem'],['beziehung','Beziehung'],['mizan_arbeit','Mizan / Arbeit'],['angriff_integritaet','Angriff auf Integrität'],['leistungsbedingtheit','Leistungsbedingtheit'],['ausschluss','Ausschluss'],['integrationsereignis','Integrationsereignis']];
 
-/* << DU lieferst: reale Aussenkontakte fuer den Krisen-Tap.
+/* << DU lieferst: reale Außenkontakte für den Krisen-Tap.
    {name, aktion:'tel'|'sms', wert:'+49...'} */
 const KONTAKTE = [
   // {name:'Maier', aktion:'tel', wert:''},
@@ -187,7 +261,17 @@ const KONTAKTE = [
 ];
 
 /* ============ Zustand + Rendering ============ */
-const state = { entsperrt:false, screen:'einstieg', fenster:null, f:{}, msg:null };
+const state = { entsperrt:false, screen:'einstieg', fenster:null, f:{}, msg:null,
+  chat:{ msgs:[], busy:false, err:null, step:0, _draft:'', saved:false } };
+function neuesGespraech(){ state.chat = { msgs:[], busy:false, err:null, step:0, _draft:'', saved:false }; }
+function ensureChatSeed(){
+  if(state.screen==='gespraech' && state.fenster==='im_fenster' && state.chat.msgs.length===0){
+    state.chat.msgs.push({ role:'assistant', text: APIKEY
+      ? 'Ich bin da. Fang beim Körper an — wo spürst du gerade etwas, und wie?'
+      : SKRIPT[0] });
+    state.chat.step = 0;
+  }
+}
 const root = document.getElementById('root');
 
 function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -206,6 +290,7 @@ function view(){
   if(!state.entsperrt) return viewUnlock();
   switch(state.screen){
     case 'nacht': return viewNacht();
+    case 'gespraech': return viewGespraech();
     case 'checkin': return viewCheckin();
     case 'routing': return viewRouting();
     case 'krise': return viewKrise();
@@ -217,27 +302,39 @@ function shell(inner){ return `<div class="app"><div class="inhalt">${inner}</di
 
 function viewUnlock(){
   const neu = state.f._neu;
+  if(state.f._reset){
+    return `<div class="app"><div class="inhalt"><div class="screen zentriert">
+      <img class="logo" src="${LOGO}" alt="Salima" />
+      <h1>MUT</h1><p class="tempo">${S.tempo}</p>
+      <h2>Neu anfangen?</h2>
+      <p class="hint">Damit wird alles auf diesem Gerät gelöscht: gespeicherte Einträge, Gesprächsspuren und dein API-Schlüssel. Das lässt sich nicht rückgängig machen — die alten Daten sind ohne die ursprüngliche Passphrase ohnehin nicht mehr lesbar. Danach legst du eine neue Passphrase fest, die du dir gut merken kannst.</p>
+      <button class="btn gross" data-act="unlock-reset">Alles löschen und neu anfangen</button>
+      <button class="wort" data-act="unlock-reset-cancel">Abbrechen</button>
+    </div></div></div>`;
+  }
   return `<div class="app"><div class="inhalt"><div class="screen zentriert">
     <img class="logo" src="${LOGO}" alt="Salima" />
     <h1>MUT</h1><p class="tempo">${S.tempo}</p>
     <h2>${neu?'Passphrase festlegen':'Passphrase'}</h2>
-    ${neu?'<p class="hint">Sie verlaesst nie das Geraet und wird nie gespeichert. Vergessen = Daten weg. Das ist Absicht.</p>':''}
+    ${neu?'<p class="hint">Sie verlässt nie das Gerät und wird nie gespeichert. Vergessen = Daten weg. Das ist Absicht.</p>':''}
     <input id="pw" class="pw" type="password" autofocus />
     ${state.f._fehler?'<p class="fehler">Passt nicht.</p>':''}
-    <button class="btn gross" data-act="unlock">${neu?'Anlegen':'Oeffnen'}</button>
+    <button class="btn gross" data-act="unlock">${neu?'Anlegen':'Öffnen'}</button>
+    ${neu?'':'<button class="wort leise" data-act="unlock-reset-ask">Ausgesperrt? Neu anfangen</button>'}
   </div></div></div>`;
 }
 
 function viewEinstieg(){
   const amp = FENSTER.map(f=>`<button class="ampel-b ${f}${state.fenster===f?' aktiv':''}" data-act="fenster" data-v="${f}">${S.fenster[f]}</button>`).join('');
   return shell(`<div class="screen">
-    <h1>Was ist heute verfuegbar?</h1>
+    <h1>Was ist heute verfügbar?</h1>
     <p class="hint">Nicht „wie geht es dir". Nur: was ist gerade da.</p>
     <div class="ampel">${amp}</div>
     <div class="nav-grid">
-      <button class="nav-b" data-act="go" data-screen="nacht">Nacht-Baseline</button>
+      <button class="nav-b" data-act="go" data-screen="gespraech">Reden &amp; sortieren</button>
       <button class="nav-b" data-act="go" data-screen="checkin">Check-in</button>
       <button class="nav-b" data-act="go" data-screen="routing">Was jetzt</button>
+      <button class="nav-b" data-act="go" data-screen="nacht">Nacht-Baseline</button>
       <button class="nav-b" data-act="go" data-screen="settings">Daten &amp; Schutz</button>
     </div>
     <img class="logo-klein" src="${LOGO}" alt="Salima" />
@@ -248,7 +345,7 @@ function viewNacht(){
   if(state.f._fertig) return shell(`<div class="screen">
     <p class="ruhe">Eingetragen. So ist es heute Nacht.</p>
     <p class="leseregel">${S.leseregel}</p>
-    <button class="btn" data-act="back">Zurueck</button></div>`);
+    <button class="btn" data-act="back">Zurück</button></div>`);
   const kw = state.f._keinwort;
   return shell(`<div class="screen">
     <h1>Nacht-Baseline</h1>
@@ -256,57 +353,101 @@ function viewNacht(){
     <label class="feld">Substanz heute</label>${choiceRow('substanz', W.substanz)}
     <label class="feld">Schmerz nachts</label>${skalaRow('schmerz')}
     <label class="feld">Ort</label>${choiceRow('ort', W.ort)}
-    <label class="feld">Qualitaet</label>${choiceRow('qualitaet', W.qualitaet)}
+    <label class="feld">Qualität</label>${choiceRow('qualitaet', W.qualitaet)}
     <button class="wort${kw?' aktiv':''}" data-act="keinwort">noch kein Wort</button>
-    ${kw?'<p class="hint">Etwas ist hier. Ich weiss noch nicht, was.</p>':''}
+    ${kw?'<p class="hint">Etwas ist hier. Ich weiß noch nicht, was.</p>':''}
     <label class="feld">Einschlafen</label>${choiceRow('einschlafen', W.einschlafen)}
     <label class="feld">Durchgeschlafen</label>${choiceRow('durchschlafen', W.janein)}
     <label class="feld">Erholsam</label>${choiceRow('erholsam', W.janein)}
     <label class="feld">Unterscheidung</label>
-    <p class="hint">Konnte ich die Empfindung heute unterscheiden — Ort, Ausdehnung, Qualitaet?</p>
+    <p class="hint">Konnte ich die Empfindung heute unterscheiden — Ort, Ausdehnung, Qualität?</p>
     ${choiceRow('unterscheidung', W.unterscheidung)}
     <button class="btn gross" data-act="save-nacht">Eintragen</button>
   </div>`);
 }
 
+function viewGespraech(){
+  if(!state.fenster) return shell(`<div class="screen">
+    <h1>Reden &amp; sortieren</h1>
+    <p class="hint">Wähle zuerst oben auf der Startseite, wo du gerade bist — davon hängt ab, was jetzt gut tut.</p>
+    <button class="btn gross" data-act="back">Zur Startseite</button>
+  </div>`);
+  if(state.fenster!=='im_fenster'){
+    const hyper = state.fenster==='hyper1'||state.fenster==='hyper2';
+    const t = hyper
+      ? 'Jetzt ist Regulieren dran, nicht Öffnen. Über die Erinnerung zu reden wäre hier zu viel.'
+      : 'Jetzt zählt der Körper — Wärme, Halt, Sinne. Kein Öffnen, keine Sprache über die Erinnerung.';
+    return shell(`<div class="screen">
+      <h1>Reden &amp; sortieren</h1>
+      <p class="ruhe">${t}</p>
+      <p class="leseregel">Das Gespräch öffnet sich wieder, wenn du im Fenster bist. Das ist Schutz, kein Verschließen.</p>
+      <button class="btn gross" data-act="go" data-screen="routing">Was jetzt hilft</button>
+      <button class="btn" data-act="back">Zurück</button>
+    </div>`);
+  }
+  const c = state.chat;
+  const bubbles = c.msgs.map((m,i)=>{
+    const zeigOption = m.role==='assistant' && i===c.msgs.length-1 && !c.busy && !c.err && !m._done;
+    return `<div class="bubble ${m.role}">${esc(m.text).replace(/\n/g,'<br/>')}</div>`
+      + (zeigOption ? `<div class="passt"><button class="wort" data-act="passt">passt</button><button class="wort" data-act="passtnicht">passt nicht</button></div>` : '');
+  }).join('');
+  const modus = APIKEY ? '' : '<p class="hint">Ohne Schlüssel führt MUT dich in ein paar ruhigen Fragen. Für ein echtes Gespräch trage in „Daten &amp; Schutz" deinen Schlüssel ein.</p>';
+  const priv = APIKEY ? '<p class="hint">Was du hier schreibst, geht ans Modell, um zu antworten. Gespeichert wird nur verschlüsselt auf diesem Gerät — und nur, wenn du „Als Spur sichern" tippst.</p>' : '';
+  return shell(`<div class="screen">
+    <h1>Reden &amp; sortieren</h1>
+    ${modus}
+    <p class="leseregel">Körper zuerst. Eine Sache nach der anderen. رويداً رويداً.</p>
+    <div class="chat">${bubbles}</div>
+    ${c.busy?'<p class="hint">…</p>':''}
+    ${c.err?`<p class="fehler">${esc(c.err)}</p>`:''}
+    <textarea id="ein" class="text" rows="2" placeholder="Schreib, wie es ist…">${esc(c._draft||'')}</textarea>
+    <button class="btn gross" data-act="send"${c.busy?' disabled':''}>Senden</button>
+    ${c.saved?'<p class="hint">Gesichert — als Spur für dich und für Maier.</p>':''}
+    <button class="btn" data-act="save-gespraech">Als Spur sichern</button>
+    <button class="btn" data-act="neu-gespraech">Neues Gespräch</button>
+    ${priv}
+    <button class="btn" data-act="back">Zurück</button>
+  </div>`);
+}
+
 function viewCheckin(){
   if(state.f._fertig) return shell(`<div class="screen">
-    <p class="ruhe">So ist es gerade.</p><button class="btn" data-act="back">Zurueck</button></div>`);
+    <p class="ruhe">So ist es gerade.</p><button class="btn" data-act="back">Zurück</button></div>`);
   const kl = state.f.klassen || [];
   const klChips = KLASSEN.map(([id,label])=>`<button class="chip${kl.includes(id)?' aktiv':''}" data-act="klasse" data-v="${id}">${label}</button>`).join('');
   return shell(`<div class="screen">
     <h1>Check-in</h1>
-    <p class="hint">Zuerst der Koerper. Alles ausser Schmerz ist optional.</p>
+    <p class="hint">Zuerst der Körper. Alles außer Schmerz ist optional.</p>
     <label class="feld">Schmerz jetzt</label>${skalaRow('schmerz')}
     <label class="feld">Ort (optional)</label>
     <input id="lok" class="text" placeholder="z. B. rechte Schulter" value="${esc(state.f.lokalisation||'')}" />
     <label class="feld">Affekt (optional)</label>${choiceRow('affekt', W.affekt)}
     <label class="feld">Absorption vorhanden? (optional)</label>${choiceRow('absorption', W.janein)}
-    <label class="feld">Ereignisklassen (optional, mehrere moeglich)</label>
+    <label class="feld">Ereignisklassen (optional, mehrere möglich)</label>
     <div class="choice">${klChips}</div>
     <button class="btn gross" data-act="save-checkin" ${state.f.schmerz==null?'disabled':''}>Eintragen</button>
   </div>`);
 }
 
 function viewRouting(){
-  let t = 'Im Fenster. Regulieren erlaubt, Oeffnen nur mit Zeit danach.';
-  if(state.fenster==='hyper1'||state.fenster==='hyper2') t='Regulieren. Nicht oeffnen.';
-  if(state.fenster==='hypo1'||state.fenster==='hypo2') t='Koerper, Waerme, sensorisch. Keine Sprache.';
+  let t = 'Im Fenster. Regulieren erlaubt, Öffnen nur mit Zeit danach.';
+  if(state.fenster==='hyper1'||state.fenster==='hyper2') t='Regulieren. Nicht öffnen.';
+  if(state.fenster==='hypo1'||state.fenster==='hypo2') t='Körper, Wärme, sensorisch. Keine Sprache.';
   return shell(`<div class="screen">
     <h1>Was jetzt</h1>
     <p class="ruhe">${t}</p>
     <div class="karte">
-      <p><strong>Minimum — 60 Sek.</strong><br/>Wo liegt das Gewicht des Koerpers auf. Nur Kontakt. Keine Frage.</p>
+      <p><strong>Minimum — 60 Sek.</strong><br/>Wo liegt das Gewicht des Körpers auf. Nur Kontakt. Keine Frage.</p>
       <p><strong>Standard — 4–6 Min.</strong></p>
       <ol>
-        <li>Zwei neutrale Orte finden — Fusssohlen, Handruecken, Gewicht auf der Matratze. Immer zuerst.</li>
-        <li>Ort → Ausdehnung → Qualitaet. Innerlich benennen, drei bis vier Worte.</li>
-        <li>Pendeln: 30–60 Sek. Schmerzstelle → neutraler Ort → zurueck. Dreimal.</li>
+        <li>Zwei neutrale Orte finden — Fußsohlen, Handrücken, Gewicht auf der Matratze. Immer zuerst.</li>
+        <li>Ort → Ausdehnung → Qualität. Innerlich benennen, drei bis vier Worte.</li>
+        <li>Pendeln: 30–60 Sek. Schmerzstelle → neutraler Ort → zurück. Dreimal.</li>
         <li>Abschluss ohne Bewertung: „So ist es heute Nacht."</li>
       </ol>
       <p class="leseregel">Nie ohne den zweiten Ort. Verweilen ohne Pendeln ist Flooding.</p>
     </div>
-    <button class="btn" data-act="back">Zurueck</button>
+    <button class="btn" data-act="back">Zurück</button>
   </div>`);
 }
 
@@ -316,30 +457,44 @@ function viewKrise(){
     : KONTAKTE.map(k=>`<a class="kontakt-b" href="${k.aktion==='sms'?'sms:':'tel:'}${k.wert}">${esc(k.name)}</a>`).join('');
   return shell(`<div class="screen">
     <h1>Krise</h1>
-    <p class="hint">Keine Fragen. Nur Handlung und Aussenkontakt.</p>
+    <p class="hint">Keine Fragen. Nur Handlung und Außenkontakt.</p>
     <div class="kontakte">${list}</div>
-    <button class="btn" data-act="back">Zurueck</button>
+    <button class="btn" data-act="back">Zurück</button>
   </div>`);
 }
 
 function viewSettings(){
   return shell(`<div class="screen">
     <h1>Daten &amp; Schutz</h1>
-    <p class="hint">Alles liegt verschluesselt nur auf diesem Geraet.</p>
+    <p class="hint">Alles liegt verschlüsselt nur auf diesem Gerät.</p>
     <button class="btn" data-act="export">Daten exportieren (JSON)</button>
     <button class="btn" data-act="lock">Jetzt sperren</button>
     <hr/>
-    ${state.f._del
-      ? `<div class="karte"><p>Wirklich alles unwiderruflich loeschen? Kein Recovery.</p>
-         <button class="btn warn" data-act="wipe-do">Ja, loeschen</button>
-         <button class="btn" data-act="wipe-cancel">Abbrechen</button></div>`
-      : `<button class="btn warn" data-act="wipe-ask">Alles loeschen</button>`}
+    <label class="feld">Redende Ebene (KI)</label>
+    <p class="hint">Dein eigener Anthropic-Schlüssel. Er wird verschlüsselt nur auf diesem Gerät gespeichert und geht direkt von hier zu Anthropic — kein Server dazwischen. Ohne Schlüssel führt MUT dich in ruhigen Fragen; mit Schlüssel wird daraus ein echtes Gespräch.</p>
+    ${APIKEY
+      ? `<p class="hint">Schlüssel ist hinterlegt. Aktives Modell: ${esc(MODEL)}.</p>
+         <button class="btn" data-act="clearkey">Schlüssel entfernen</button>`
+      : `<input id="apik" class="text" type="password" placeholder="sk-ant-…" autocomplete="off" />
+         <button class="btn" data-act="savekey">Schlüssel speichern</button>`}
+    <label class="feld">Modell</label>
+    <div class="choice">
+      ${[['claude-sonnet-5','Sonnet 5'],['claude-opus-5','Opus 5'],['claude-haiku-4-5','Haiku 4.5']]
+        .map(([id,l])=>`<button class="chip${MODEL===id?' aktiv':''}" data-act="setmodel" data-v="${id}">${l}</button>`).join('')}
+    </div>
     <hr/>
-    <button class="btn" data-act="back">Zurueck</button>
+    ${state.f._del
+      ? `<div class="karte"><p>Wirklich alles unwiderruflich löschen? Kein Recovery.</p>
+         <button class="btn warn" data-act="wipe-do">Ja, löschen</button>
+         <button class="btn" data-act="wipe-cancel">Abbrechen</button></div>`
+      : `<button class="btn warn" data-act="wipe-ask">Alles löschen</button>`}
+    <hr/>
+    <button class="btn" data-act="back">Zurück</button>
   </div>`);
 }
 
-function render(){ root.innerHTML = view(); const pw=document.getElementById('pw'); if(pw) pw.focus(); }
+function render(){ ensureChatSeed(); root.innerHTML = view(); const pw=document.getElementById('pw'); if(pw) pw.focus();
+  if(state.screen==='gespraech'){ requestAnimationFrame(()=>window.scrollTo(0, document.body.scrollHeight)); } }
 
 /* ============ Interaktion (Delegation) ============ */
 root.addEventListener('click', async (ev)=>{
@@ -359,10 +514,13 @@ root.addEventListener('click', async (ev)=>{
       const pass = document.getElementById('pw').value;
       if(!pass) return;
       const ok = await unlock(pass);
-      if(ok){ state.entsperrt=true; state.f={}; state.screen='einstieg'; render(); }
+      if(ok){ await loadSecrets(); state.entsperrt=true; state.f={}; state.screen='einstieg'; render(); }
       else { state.f._fehler=true; render(); }
       break;
     }
+    case 'unlock-reset-ask': state.f._reset=true; render(); break;
+    case 'unlock-reset-cancel': state.f._reset=false; render(); break;
+    case 'unlock-reset': { await wipe(); state.f={_neu:true}; render(); break; }
     case 'save-nacht': {
       await addEntry({
         modus:'nacht', fenster:state.fenster||null,
@@ -402,8 +560,57 @@ root.addEventListener('click', async (ev)=>{
     case 'wipe-ask': state.f._del=true; render(); break;
     case 'wipe-cancel': state.f._del=false; render(); break;
     case 'wipe-do': await wipe(); state.entsperrt=false; state.f={}; state.screen='einstieg'; render(); break;
+
+    case 'send': {
+      const ta=document.getElementById('ein'); const txt=ta?ta.value.trim():'';
+      if(!txt || state.chat.busy) return;
+      state.chat.msgs.push({role:'user', text:txt});
+      state.chat._draft=''; state.chat.saved=false;
+      if(APIKEY){
+        state.chat.busy=true; state.chat.err=null; render();
+        try{ const r=await askKI(state.chat.msgs.map(m=>({role:m.role, content:m.text})));
+             state.chat.msgs.push({role:'assistant', text:r||'…'}); }
+        catch(e){ state.chat.err=e.message; }
+        state.chat.busy=false; render();
+      } else {
+        state.chat.step=(state.chat.step||0)+1;
+        const next=SKRIPT[state.chat.step];
+        const refl='Ich höre: „'+txt+'".';
+        state.chat.msgs.push({role:'assistant', text: next ? refl+'\n\n'+next
+          : refl+'\n\nDas reicht für heute. Wenn du willst, sichere es als Spur für Maier.'});
+        render();
+      }
+      break;
+    }
+    case 'passt': { const m=state.chat.msgs[state.chat.msgs.length-1]; if(m) m._done=true; render(); break; }
+    case 'passtnicht': {
+      const m=state.chat.msgs[state.chat.msgs.length-1]; if(m) m._done=true;
+      if(APIKEY){
+        state.chat.msgs.push({role:'user', text:'Das passt nicht zu dem, wie es war.'});
+        state.chat.busy=true; state.chat.err=null; render();
+        try{ const r=await askKI(state.chat.msgs.map(x=>({role:x.role, content:x.text})));
+             state.chat.msgs.push({role:'assistant', text:r||'…'}); }
+        catch(e){ state.chat.err=e.message; }
+        state.chat.busy=false; render();
+      } else {
+        state.chat.msgs.push({role:'assistant', text:'Gut. Sag es, wie es war — in deinen Worten.'});
+        render();
+      }
+      break;
+    }
+    case 'save-gespraech': {
+      if(!state.chat.msgs.length) return;
+      await addEntry({ modus:'gespraech', fenster:state.fenster||null,
+        verlauf: state.chat.msgs.map(m=>({role:m.role, text:m.text})) });
+      state.chat.saved=true; render(); break;
+    }
+    case 'neu-gespraech': neuesGespraech(); render(); break;
+    case 'savekey': { const el=document.getElementById('apik'); const k=el?el.value.trim():''; if(k){ await saveApiKey(k); state.f={}; render(); } break; }
+    case 'clearkey': await clearApiKey(); render(); break;
+    case 'setmodel': await saveModel(v); render(); break;
   }
 });
+root.addEventListener('input', (ev)=>{ if(ev.target.id==='ein'){ state.chat._draft = ev.target.value; } });
 // Enter im Passphrase-Feld
 root.addEventListener('keydown', (ev)=>{
   if(ev.key==='Enter' && ev.target.id==='pw'){ const b=root.querySelector('[data-act="unlock"]'); if(b) b.click(); }
@@ -414,19 +621,19 @@ function zeigeFehler(txt){
   root.innerHTML = '<div class="app"><div class="inhalt"><div class="screen">'
     + '<h1>MUT</h1><p class="hint">Start-Hinweis:</p>'
     + '<div class="karte"><p style="font-size:14px">'+String(txt).replace(/</g,'&lt;')+'</p></div>'
-    + '<p class="hint">Am zuverlaessigsten laeuft MUT ueber eine Web-Adresse (https). Sag Bescheid, dann richten wir das ein.</p>'
+    + '<p class="hint">Am zuverlässigsten läuft MUT über eine Web-Adresse (https). Sag Bescheid, dann richten wir das ein.</p>'
     + '</div></div></div>';
 }
 window.addEventListener('error', e=>{ zeigeFehler((e && e.message) || 'unbekannter Fehler'); });
 
 try{
-  /* Start: erst pruefen, ob sichere Verschluesselung ueberhaupt moeglich ist. */
+  /* Start: erst prüfen, ob sichere Verschlüsselung überhaupt möglich ist. */
   if(!('crypto' in window) || !crypto.subtle){
     root.innerHTML = '<div class="app"><div class="inhalt"><div class="screen zentriert">'
-      + '<h1>MUT</h1><p class="hint">Dieser Browser erlaubt hier keine sichere Verschluesselung — '
-      + 'das passiert oft, wenn eine lokale Datei am iPhone geoeffnet wird. '
-      + 'Oeffne MUT stattdessen ueber eine Web-Adresse (https). Dann laeuft alles verschluesselt und offline, '
-      + 'und die Daten bleiben nur auf diesem Geraet.</p></div></div></div>';
+      + '<h1>MUT</h1><p class="hint">Dieser Browser erlaubt hier keine sichere Verschlüsselung — '
+      + 'das passiert oft, wenn eine lokale Datei am iPhone geöffnet wird. '
+      + 'Öffne MUT stattdessen über eine Web-Adresse (https). Dann läuft alles verschlüsselt und offline, '
+      + 'und die Daten bleiben nur auf diesem Gerät.</p></div></div></div>';
   } else {
     hasVault().then(v=>{ state.f._neu = !v; render(); }).catch(err=>{ state.f._neu=true; try{ render(); }catch(e){ zeigeFehler(e.message); } });
   }
